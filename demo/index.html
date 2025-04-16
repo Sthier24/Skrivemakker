@@ -1,1 +1,20 @@
-<!DOCTYPE html><html><body><h2>GPT feedback kommer her</h2></body></html>
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Skrivemakker Demo</title></head>
+<body style="font-family:sans-serif">
+<h2>✍️ Skrivemakker – GPT Feedback</h2>
+<textarea id="tekst" rows="6" style="width:100%"></textarea>
+<button onclick="getFeedback()">Få feedback</button>
+<pre id="output" style="background:#eee;padding:1rem;"></pre>
+<script>
+async function getFeedback() {
+  const prompt = "Giv feedback på følgende tekst:\n" + document.getElementById("tekst").value;
+  const res = await fetch("/.netlify/functions/gpt-feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt })
+  });
+  const data = await res.json();
+  document.getElementById("output").textContent = data.result;
+}
+</script>
+</body></html>
